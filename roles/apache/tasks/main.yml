@@ -1,0 +1,9 @@
+---
+# These tasks are responsible for configuring Apache
+
+- name: Apache | Include project variables
+  include_vars: "{{ project_vars }}"
+
+- name: Apache | Create virtualhost file
+  template: src=virtualhost dest="/etc/httpd/conf.d/{{ project_name }}.conf" owner=root group=root mode=0644
+  notify: restart httpd

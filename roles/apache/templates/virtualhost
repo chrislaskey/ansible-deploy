@@ -1,0 +1,8 @@
+<VirtualHost *:80>
+    ServerName {{ apache.servername }}
+    DocumentRoot /var/www/{{ project_name }}/app
+
+    <Directory "/var/www/{{ project_name }}/app">
+        AllowOverride All
+    </Directory>
+</VirtualHost>
