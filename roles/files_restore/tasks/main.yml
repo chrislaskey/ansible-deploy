@@ -1,0 +1,12 @@
+---
+# Restores files from backup if needed
+
+- name: Files Restore | Check if backup exists
+  shell: "test -d /backups/hourly.0/websites/{{ project_name }}"
+  register: files_backup_exists
+  changed_when: files_backup_exists.rc != 0
+  ignore_errors: True
+
+- name: Files Restore | Restore project files from backup if this is the initial import
+  shell: "rsync -avz -e 'ssh -i /home/{{ ansible_ssh_user }}/.ssh/id_rsa' --rsync-path='sudo rsync' /backups/hourly.0/websites/{{ project_name }}/ ansible@{{ webserver }}:/var/www/{{ project_name }}/"
+  when: hostvars[webserver].is_initial_import.stdout == "yes" and files_backup_exists.rc == 0
