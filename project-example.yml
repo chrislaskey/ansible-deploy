@@ -35,3 +35,15 @@
   vars:
     - project_path: "/local/path/to/project-files"
     - project_vars: "{{ project_path }}/setup/variables.yml"
+
+# Deploy database using a separate definition in case they are different machines
+
+- name: example project dbserver
+  hosts: "{{ dbserver }}"
+  remote_user: ansible
+  sudo: yes
+  roles:
+    - mysql_deploy
+  vars:
+    - project_path: "~/Dropbox/Sites/work/celest/dev"
+    - project_vars: "{{ project_path }}/setup/variables.yml"
