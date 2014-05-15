@@ -30,6 +30,7 @@
   remote_user: ansible
   sudo: yes
   roles:
+    - files_deploy
     - apache
   vars:
     - project_path: "/local/path/to/project-files"
