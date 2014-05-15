@@ -22,3 +22,15 @@
   vars:
     - project_path: "/local/path/to/project-files"
     - project_vars: "{{ project_path }}/setup/variables.yml"
+
+# Update setup webserver and sync project files
+
+- name: example project webserver
+  hosts: "{{ webserver }}"
+  remote_user: ansible
+  sudo: yes
+  roles:
+    - apache
+  vars:
+    - project_path: "/local/path/to/project-files"
+    - project_vars: "{{ project_path }}/setup/variables.yml"
