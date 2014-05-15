@@ -9,3 +9,15 @@
   sudo: yes
   roles:
     - files_status
+
+# Restore files from backup server if any exist
+
+- name: example project backup server
+  hosts: backupservers
+  remote_user: ansible
+  sudo: yes
+  roles:
+    - files_restore
+  vars:
+    - project_path: "/local/path/to/project-files"
+    - project_vars: "{{ project_path }}/setup/variables.yml"
