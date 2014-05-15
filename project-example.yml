@@ -1,0 +1,11 @@
+---
+# This playbook deploys a project to a specific web server, database server, and backup server
+
+# Gather information about the project, is this the first deploy? Or does it already exist?
+
+- name: example project webserver
+  hosts: "{{ webserver }}"
+  remote_user: ansible
+  sudo: yes
+  roles:
+    - files_status
