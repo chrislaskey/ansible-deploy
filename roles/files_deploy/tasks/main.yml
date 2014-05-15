@@ -1,0 +1,17 @@
+---
+# Deploy the latest project repository files if it exists
+  
+- name: Files Deploy | Include project variables
+  include_vars: "{{ project_vars }}"
+
+- name: Files Deploy | Transfer repo files
+  synchronize: src="{{ project_path }}/" dest="/var/www/{{ project_name }}"
+
+- name: Files Deploy | Update file permissions
+  shell: "find /var/www/{{ project_name }} -type f | xargs -I {} chmod 0644 {}"
+
+- name: Files Deploy | Update directory permissions
+  shell: "find /var/www/{{ project_name }} -type d | xargs -I {} chmod 0755 {}"
+
+- name: Files Deploy | Update file ownership
+  shell: "chown -R apache:apache /var/www/{{ project_name }}"
