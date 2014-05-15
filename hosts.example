@@ -1,0 +1,17 @@
+[backupservers]
+192.168.236.136
+
+[backupclients]
+192.168.236.132
+
+[nagiosservers]
+192.168.236.132
+
+[nagiosclients]
+192.168.236.136
+
+[webservers]
+192.168.236.132
+
+[dbservers]
+192.168.236.132
