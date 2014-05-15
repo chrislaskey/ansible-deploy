@@ -1,0 +1,7 @@
+---
+# Determine if initial import 
+
+- name: Files | Check if is initial import
+  shell: if [[ -d "/var/www/{{ project_name }}" ]]; then echo "no"; else echo "yes"; fi;
+  changed_when: is_initial_import == 'yes'
+  register: is_initial_import
