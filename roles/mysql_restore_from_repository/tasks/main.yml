@@ -1,0 +1,9 @@
+---
+# Sync MySQL restore files from repository, if they exist
+  
+- name: MySQL Restore from Repository | Include project variables
+  include_vars: "{{ project_vars }}"
+
+- name: MySQL Restore from Repository | Transfer MySQL restore files from repository if they exist. If it does not exist, ignore the sync error.
+  synchronize: src="{{ project_path }}/deploy/mysql-restores/" dest="/tmp/mysql-restores-from-repository"
+  ignore_errors: True
