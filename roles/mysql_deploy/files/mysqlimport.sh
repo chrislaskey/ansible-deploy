@@ -11,7 +11,10 @@
 # simplicity, namely less state to keep track of inside ansible.
 
 db=$1
-restore_file="/tmp/mysql-restores/${db}.sql" 
+project=$2
+
+restore_file_backup="/tmp/mysql-restores-from-backup/${db}.sql"
+restore_file_repo="/tmp/mysql-restores-from-repository/${db}.sql"
 
 if [[ `mysqlshow -u root $db | wc -l` -gt 5 ]]; then
 	# The `mysqlshow` command outputs a list of tables. When a database is empty the
@@ -21,15 +24,30 @@ if [[ `mysqlshow -u root $db | wc -l` -gt 5 ]]; then
 	exit 0
 fi
 
-if [[ ! -f "$restore_file" ]]; then
+function restore_database_file () {
+	this_restore_file=$1
+
+	if ! mysql -u root $db < $this_restore_file; then
+		echo "ERROR: failed to import ${db} database data from restore file '${this_restore_file}'"
+		exit 11
+	fi
+}
+
+if [[ -f "$restore_file_backup" ]]; then
+
+	restore_database_file "$restore_file_backup"
+	echo "Successfully imported ${db} database data"
+
+elif [[ -f "$restore_file_repo" ]]; then
+
+	restore_database_file "$restore_file_repo"
+	echo "Successfully imported ${db} database data"
+
+else
+
 	echo "ERROR: ${db} database is empty but no restore file could be found"
-	echo "       Searched: ${restore_file}"
+	echo "       Searched: ${restore_file_backup}"
+	echo "       Searched: ${restore_file_repo}"
 	exit 10
-fi
 
-if ! mysql -u root $db < $restore_file; then
-	echo "ERROR: failed to import ${db} database data from restore file '${restore_file}'"
-	exit 11
 fi
-
-echo "Successfully imported ${db} database data"
