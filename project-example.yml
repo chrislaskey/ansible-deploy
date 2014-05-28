@@ -18,12 +18,11 @@
   sudo: yes
   roles:
     - files_restore
-    - mysql_restore
   vars:
     - project_path: "/local/path/to/project-files"
-    - project_vars: "{{ project_path }}/setup/variables.yml"
+    - project_vars: "{{ project_path }}/deploy/variables.yml"
 
-# Update setup webserver and sync project files
+# Update webserver and sync project files
 
 - name: example project webserver
   hosts: "{{ webserver }}"
@@ -34,7 +33,19 @@
     - apache
   vars:
     - project_path: "/local/path/to/project-files"
-    - project_vars: "{{ project_path }}/setup/variables.yml"
+    - project_vars: "{{ project_path }}/deploy/variables.yml"
+      
+# Restore mysql files from backup server if any exist
+
+- name: backup server
+  hosts: backupservers
+  remote_user: ansible
+  sudo: yes
+  roles:
+    - mysql_restore_from_backup
+  vars:
+    - project_path: "/local/path/to/project-files"
+    - project_vars: "{{ project_path }}/deploy/variables.yml"
 
 # Deploy database using a separate definition in case they are different machines
 
@@ -43,7 +54,8 @@
   remote_user: ansible
   sudo: yes
   roles:
+    - mysql_restore_from_repository
     - mysql_deploy
   vars:
-    - project_path: "~/Dropbox/Sites/work/celest/dev"
-    - project_vars: "{{ project_path }}/setup/variables.yml"
+    - project_path: "/local/path/to/project-files"
+    - project_vars: "{{ project_path }}/deploy/variables.yml"
