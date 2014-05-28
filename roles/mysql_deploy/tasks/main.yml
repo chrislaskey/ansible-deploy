@@ -15,7 +15,7 @@
   copy: src=mysqlimport.sh dest=/var/lib/mysql/mysqlimport.sh owner=root group=root mode=0700
 
 - name: MySQL Deploy | Import database data if needed
-  shell: "/var/lib/mysql/mysqlimport.sh {{ item.key }}"
+  shell: "/var/lib/mysql/mysqlimport.sh {{ item.key }} {{ project_name }}"
   with_dict: mysql
 
 - name: MySQL Deploy | Create user with remote permissions
