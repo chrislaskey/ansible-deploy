@@ -20,4 +20,4 @@ if [[ -z "$dbserver" ]]; then
 	dbserver="$webserver"
 fi
 
-ansible-playbook -i hosts --extra-vars "project_name=${project_name}  webserver=${webserver} dbserver=${dbserver}" deploy-project/project-"$project_name".yml
+ansible-playbook -i hosts --extra-vars "project_name=${project_name}  webserver=${webserver} dbserver=${dbserver}" deploy/project-"$project_name".yml
