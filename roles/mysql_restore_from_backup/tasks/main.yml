@@ -1,0 +1,9 @@
+---
+# This playbook restores a MySQL database dump file
+
+- name: MySQL Restore from Backup | Include project variables
+  include_vars: "{{ project_vars }}"
+
+- name: MySQL Restore from Backup | If backup exists, sync it to the target database server
+  shell: "if [[ -f /backups/hourly.0/mysql/{{ item.key }}/{{ item.key }}.sql ]]; then rsync -avz -e 'ssh -i /home/{{ ansible_ssh_user }}/.ssh/id_rsa' --rsync-path='sudo rsync' /backups/hourly.0/mysql/{{ item.key }}/{{ item.key }}.sql ansible@{{ dbserver }}:/tmp/mysql-restores-backup/; else exit 0; fi"
+  with_dict: mysql
