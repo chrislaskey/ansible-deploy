@@ -1,6 +1,9 @@
 <VirtualHost *:80>
-    ServerName {{ apache.servername }}
+    ServerName {{ apache_servername }}
     DocumentRoot /var/www/{{ project_name }}/app
+    {% if apache_serveralias|lower != "none" %}
+ServerAlias {{ apache_serveralias }}
+    {% endif %}
 
     <Directory "/var/www/{{ project_name }}/app">
         AllowOverride All
