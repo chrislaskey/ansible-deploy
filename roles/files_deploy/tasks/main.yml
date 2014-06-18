@@ -8,10 +8,10 @@
   synchronize: src="{{ project_path }}/" dest="/var/www/{{ project_name }}"
 
 - name: Files Deploy | Update file permissions
-  shell: "find /var/www/{{ project_name }} -type f | xargs -I {} chmod 0644 {}"
+  shell: "find /var/www/{{ project_name }} -print0 -type f | xargs -0 -I {} chmod 0644 {}"
 
 - name: Files Deploy | Update directory permissions
-  shell: "find /var/www/{{ project_name }} -type d | xargs -I {} chmod 0755 {}"
+  shell: "find /var/www/{{ project_name }} -print0 -type d | xargs -0 -I {} chmod 0755 {}"
 
 - name: Files Deploy | Update file ownership
   shell: "chown -R apache:apache /var/www/{{ project_name }}"
