@@ -2,3 +2,5 @@
 
 apache_servername: 
 apache_serveralias: 
+apache_virtualhost: virtualhost-php
+apache_base_uri: /
