@@ -10,7 +10,7 @@ ServerAlias {{ apache_serveralias }}
         AllowOverride All
     </Directory>
 
-    Alias /static /var/www/{{ project_name }}/application/static/
+    Alias /static /var/www/{{ project_name }}/app/static/
     Alias /robots.txt /var/www/{{ project_name }}/robots.txt
     Alias /favicon.ico /var/www/{{ project_name }}/favicon.ico
 
