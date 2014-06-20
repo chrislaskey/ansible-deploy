@@ -17,14 +17,14 @@
   shell: "find /var/www/{{ project_name }} -type f -print0 | xargs -0 -I {} chmod 0644 {}"
 
 - name: Files Deploy | Update setup file permissions if they exist
-  shell: "if [[ -f /var/www/{{ project_name }}/{{ item }} ]]; then chmod u+x /var/www/{{ project_name }}/{{ item }}; else exit 0; fi;"
+  shell: "cd /var/www/{{ project_name }} && if [[ -f {{ item }} ]]; then chmod u+x {{ item }}; else exit 0; fi;"
   with_items:
     - setup
     - setup.sh
     - setup.py
 
 - name: Files Deploy | Execute setup files if they exist
-  shell: "if [[ -f /var/www/{{ project_name }}/{{ item }} ]]; then /var/www/{{ project_name }}/{{ item }}; else exit 0; fi;"
+  shell: "cd /var/www/{{ project_name }} && if [[ -f {{ item }} ]]; then ./{{ item }}; else exit 0; fi;"
   with_items:
     - setup
     - setup.sh
