@@ -1,0 +1,32 @@
+<VirtualHost *:80>
+
+    ServerName {{ apache_servername }}
+    DocumentRoot /var/www/{{ project_name }}/app
+    {% if apache_serveralias|lower != "none" %}
+ServerAlias {{ apache_serveralias }}
+    {% endif %}
+
+    <Directory "/var/www/{{ project_name }}/app">
+        AllowOverride All
+    </Directory>
+
+    Alias /static /var/www/{{ project_name }}/application/static/
+    Alias /robots.txt /var/www/{{ project_name }}/robots.txt
+    Alias /favicon.ico /var/www/{{ project_name }}/favicon.ico
+
+    <Directory /var/www/{{ project_name }}>
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+    WSGIDaemonProcess {{ project_name }}
+    WSGIScriptAlias {{ apache_base_uri }} /var/www/{{ project_name }}/app.wsgi
+
+    <Directory /var/www/{{ project_name }}>
+        WSGIProcessGroup {{ project_name }}
+        WSGIApplicationGroup %{GLOBAL}
+        Order deny,allow
+        Allow from all
+    </Directory>
+
+</VirtualHost>
