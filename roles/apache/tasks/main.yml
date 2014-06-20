@@ -5,5 +5,6 @@
   include_vars: "{{ project_vars }}"
 
 - name: Apache | Create virtualhost file
-  template: src=virtualhost dest="/etc/httpd/conf.d/{{ project_name }}.conf" owner=root group=root mode=0644
+  template: src="{{ apache_virtualhost }}" dest="/etc/httpd/conf.d/{{ project_name }}.conf" owner=root group=root mode=0644
   notify: restart httpd
+  when: apache_virtualhost|lower != "none"
