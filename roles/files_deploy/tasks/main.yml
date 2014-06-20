@@ -15,3 +15,10 @@
 
 - name: Files Deploy | Update file ownership
   shell: "chown -R apache:apache /var/www/{{ project_name }}"
+
+- name: Files Deploy | Execute setup files if they exist
+  shell: "if [[ -f /var/www/{{ project_name }}/{{ item }} ]]; then chmod u+x /var/www/{{ project_name }}/{{ item }} && /var/www/{{ project_name }}/{{ item }}; else exit 0; fi;"
+  with_items:
+    - setup
+    - setup.sh
+    - setup.py
