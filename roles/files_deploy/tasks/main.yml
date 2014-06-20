@@ -7,17 +7,24 @@
 - name: Files Deploy | Transfer repo files
   synchronize: src="{{ project_path }}/" dest="/var/www/{{ project_name }}"
 
-- name: Files Deploy | Update file permissions
-  shell: "find /var/www/{{ project_name }} -print0 -type f | xargs -0 -I {} chmod 0644 {}"
+- name: Files Deploy | Update file ownership
+  shell: "chown -R apache:apache /var/www/{{ project_name }}"
 
 - name: Files Deploy | Update directory permissions
   shell: "find /var/www/{{ project_name }} -print0 -type d | xargs -0 -I {} chmod 0755 {}"
 
-- name: Files Deploy | Update file ownership
-  shell: "chown -R apache:apache /var/www/{{ project_name }}"
+- name: Files Deploy | Update file permissions
+  shell: "find /var/www/{{ project_name }} -print0 -type f | xargs -0 -I {} chmod 0644 {}"
+
+- name: Files Deploy | Update setup file permissions if they exist
+  shell: "if [[ -f /var/www/{{ project_name }}/{{ item }} ]]; then chmod u+x /var/www/{{ project_name }}/{{ item }}; else exit 0; fi;"
+  with_items:
+    - setup
+    - setup.sh
+    - setup.py
 
 - name: Files Deploy | Execute setup files if they exist
-  shell: "if [[ -f /var/www/{{ project_name }}/{{ item }} ]]; then chmod u+x /var/www/{{ project_name }}/{{ item }} && /var/www/{{ project_name }}/{{ item }}; else exit 0; fi;"
+  shell: "if [[ -f /var/www/{{ project_name }}/{{ item }} ]]; then /var/www/{{ project_name }}/{{ item }}; else exit 0; fi;"
   with_items:
     - setup
     - setup.sh
