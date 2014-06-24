@@ -31,4 +31,4 @@
     - setup.py
 
 - name: Files Deploy | Touch WSGI file if it exists
-  shell: "cd /var/www/{{ project_name }} && if [[ -f 'app.wsgi' ]]; then touch ./app.wsgi; else exit 0; fi;"
+  shell: "find /var/www/{{ project_name }} -type f -iname '*.wsgi' | xargs -I {} touch {}"
