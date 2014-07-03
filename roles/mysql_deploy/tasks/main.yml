@@ -3,6 +3,7 @@
 
 - name: MySQL Deploy | Include project variables
   include_vars: "{{ project_vars }}"
+  when: project_vars|lower != "none"
 
 - name: MySQL Deploy | Make sure MySQL is running
   service: name=mysqld state=started enabled=true

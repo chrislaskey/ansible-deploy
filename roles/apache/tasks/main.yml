@@ -3,6 +3,7 @@
 
 - name: Apache | Include project variables
   include_vars: "{{ project_vars }}"
+  when: project_vars|lower != "none"
 
 - name: Apache | Create virtualhost file
   template: src="{{ apache_virtualhost }}" dest="/etc/httpd/conf.d/{{ project_name }}.conf" owner=root group=root mode=0644

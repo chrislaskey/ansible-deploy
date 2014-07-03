@@ -3,6 +3,7 @@
   
 - name: Files Deploy | Include project variables
   include_vars: "{{ project_vars }}"
+  when: project_vars|lower != "none"
 
 - name: Files Deploy | Transfer repo files
   synchronize: src="{{ project_path }}/" dest="/var/www/{{ project_name }}"
