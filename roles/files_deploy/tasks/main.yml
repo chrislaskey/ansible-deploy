@@ -22,6 +22,11 @@
     - setup
     - setup.sh
     - setup.py
+    - setup.php
+    - install
+    - install.sh
+    - install.py
+    - install.php
 
 - name: Files Deploy | Execute setup files if they exist
   shell: "cd /var/www/{{ project_name }} && if [[ -f {{ item }} ]]; then ./{{ item }}; else exit 0; fi;"
@@ -29,6 +34,11 @@
     - setup
     - setup.sh
     - setup.py
+    - setup.php
+    - install
+    - install.sh
+    - install.py
+    - install.php
 
 - name: Files Deploy | Touch WSGI file if it exists
   shell: "find /var/www/{{ project_name }} -type f -iname '*.wsgi' | xargs -I {} touch {}"
