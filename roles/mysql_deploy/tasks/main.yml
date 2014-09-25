@@ -6,7 +6,7 @@
   when: project_vars|lower != "none"
 
 - name: MySQL Deploy | Make sure MySQL is running
-  service: name=mysqld state=started enabled=true
+  service: name=mariadb state=started enabled=true
 
 - name: MySQL Deploy | Create databases
   mysql_db: name={{ item.key }} state=present
@@ -27,8 +27,8 @@
   mysql_user: name={{ item.value.username }} password={{ item.value.password }} priv="{{ item.key }}.*:ALL" host='localhost' state=present
   with_dict: mysql
 
-- name: MySQL Deploy | Cleanup MySQL restore files
-  file: path={{ item }} state=absent recurse=yes
-  with_items:
-    - /tmp/mysql-restores-from-backup
-    - /tmp/mysql-restores-from-repository
+# - name: MySQL Deploy | Cleanup MySQL restore files
+#   file: path={{ item }} state=absent recurse=yes
+#   with_items:
+#     - /tmp/mysql-restores-from-backup
+#     - /tmp/mysql-restores-from-repository
